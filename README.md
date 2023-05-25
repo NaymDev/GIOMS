@@ -1,2 +1,2 @@
 # GIOMS
-##Go Implementation Of a Minecraft Server##
+## Go Implementation Of a Minecraft Server ##
