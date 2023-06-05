@@ -2,7 +2,7 @@
 ## Go Implementation Of a Minecraft Server ##
 This is a fully working minecraft server coded in GO(-lang).The goal is to have diffrent versions(/forks) of this project, which are optimized for diffrent tasks.
 
-### Task manager ###
+### [Task manager](sourcecode/task_manager) ###
 The "task manager" is a script which manages how, when ans where a function(aka. task) should run.In the hole project the task manager is used to run tasks.This allows for easy optimization and adaption for diffrent use cases.
 
 
