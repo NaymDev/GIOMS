@@ -34,5 +34,17 @@ func (s *MinecraftServer) Start() error {
 func(s *MinecraftServer) acceptLoop() {
 	for {
 		conn, err := s.ln.Accept()
+		if err != nil {
+			core.logger.TcpError("accept error: " + err)
+			continue
+		}
+		sess := session {
+			conn: conn
+		}
+		go s.doHandshakeWith(sess)
 	}
+}
+
+func doHandshakeWith(session: playerSession) {
+	//Handshake logic here(coming soon)
 }
