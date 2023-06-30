@@ -24,6 +24,11 @@ type MinecraftPacket struct {
 	index uint8
 }
 
+func PacketWithFields(state String, id uint8) MinecraftPacket {
+
+}
+
+
 func (packet *MinecraftPacket) Pack() []byte {
 	protocol, err := GetOrLoadProtocol(packet.RawInfo.Version)
 	if err != nil {
