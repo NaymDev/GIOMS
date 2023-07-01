@@ -24,8 +24,32 @@ type MinecraftPacket struct {
 	index uint8
 }
 
-func PacketWithFields(state String, id uint8) MinecraftPacket {
-
+func PacketWithFields(state String, id uint8, len uint, serverBound bool) (MinecraftPacket, error) {
+	//Protocol version -1 is the GIOMC version which has a 1:1 mapping.
+	prot, err := GetOrLoadProtocol(-1)
+	if err != nil {
+		CoreError(err)
+		return (nil, err)
+	}
+	if serverBound {
+		return MinecraftPacket {
+			Fields: prot.ServerboundPackets[state][id].Fields,
+			RawInfo: struct {
+				State: state,
+				PacketID: id,
+				Version: -1
+			}
+		}
+	} else {
+		return MinecraftPacket {
+			Fields: prot.ClientboundPackets[state][id].Fields,
+			RawInfo: struct {
+				State: state,
+				PacketID: id,
+				Version: -1
+			}
+		}
+	}
 }
 
 
