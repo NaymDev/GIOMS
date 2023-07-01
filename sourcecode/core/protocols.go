@@ -34,6 +34,12 @@ type Protocol struct {
 		GOMCID uint8
 		Fields map[string]string
 	} `json:"serverbound_packets"`
+	ClientboundPackets map[string]map[uint8]struct{
+		State string
+		MCID uint8
+		GOMCID uint8
+		Fields map[string]string
+	} `json:"clientbound_packets"`
 }
 
 func GetOrLoadProtocol(version int16) (Protocol, error) {
