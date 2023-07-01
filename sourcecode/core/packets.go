@@ -201,6 +201,11 @@ func (packet *MinecraftPacket) PackVarLong(value int64) []byte {
 
 
 // Functions to unpack a signle type
+func(packet *MinecraftPacket) UnpackByte() byte {
+	packet.index++
+	return packet.packed[packet.index-1]
+}
+
 func (packet *MinecraftPacket) UnpackBoolean() bool {
 	packet.index++
 	if packet.packed[packet.index-1] != 0 {
@@ -208,6 +213,17 @@ func (packet *MinecraftPacket) UnpackBoolean() bool {
 	} else {
 		return false
 	}
+}
+
+func (packet *MinecraftPacket) UnpackShort() int16 {
+	ushort := binary.LittleEndian.Uint16(packet.packed[packet.index:packet.index+2])
+	packet.index += 2
+	return int16(bits)
+}
+
+func (packet *MinecraftPacket) UnpackUShort() uint16 {
+	packet.index += 2
+	return binary.LittleEndian.Uint16(packet.index-2:packet.index)
 }
 
 func (packet *MinecraftPacket) UnpackFloat() float32 {
