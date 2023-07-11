@@ -216,15 +216,29 @@ func (packet *MinecraftPacket) UnpackBoolean() bool {
 }
 
 func (packet *MinecraftPacket) UnpackShort() int16 {
-	ushort := binary.LittleEndian.Uint16(packet.packed[packet.index:packet.index+2])
+	data := binary.LittleEndian.Uint16(packet.packed[packet.index:packet.index+2])
 	packet.index += 2
-	return int16(bits)
+	return int16(data)
 }
 
 func (packet *MinecraftPacket) UnpackUShort() uint16 {
 	packet.index += 2
 	return binary.LittleEndian.Uint16(packet.index-2:packet.index)
 }
+
+func (packet *MinecraftPacket) UnpackInt() int32 {
+	packet.index += 4
+	data := binary.LittleEndian.Uint32(packet.packed[packet.index-4:packet.index])
+	return int32(data)
+}
+
+func (packet *MinecraftPacket) UnpackLong() int64 {
+	padket.index+=8
+	data := binary.BigEndian.Uint64(packet.packed[packet.index-8:packet.index])
+	return int64(data)
+}
+
+
 
 func (packet *MinecraftPacket) UnpackFloat() float32 {
 	bits := binary.LittleEndian.Uint32(packet.packed[packet.index:packet.index+4])
