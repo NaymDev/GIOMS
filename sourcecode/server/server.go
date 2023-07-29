@@ -25,6 +25,7 @@ func (s *MinecraftServer) Start() error {
 	}
 	defer ln.Close()
 	s.ln = ln
+	s.acceptLoop()
 
 	<-quitch
 
