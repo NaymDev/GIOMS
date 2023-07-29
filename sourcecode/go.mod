@@ -1,3 +1,3 @@
-module giomc
+module gioms
 
 go 1.19
