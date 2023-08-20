@@ -1,0 +1,68 @@
+{
+	"version": 762,
+	"serverbound_packets": {
+		"handshake": {
+			"0": {
+				"state":"handshake",
+				"mcid": 0,
+				"gomcid": 0,
+				"fields": {
+					"protocol_version":"VarInt",
+					"server_address":"String.255",
+					"server_port":"UnsignedShort",
+					"next_state":"VarInt"
+				}
+			}
+		},
+		"status": {
+			"0": {
+				"state":"status",
+				"mcid":0,
+				"gomcid":0,
+				"fields": {}
+			},
+			"1": {
+				"state":"status",
+				"mcid":1,
+				"gomcid":1,
+				"fields": {
+					"payload":"Long"
+				}
+			}
+		},
+		"login": {
+			"0": {
+				"state":"login",
+				"mcid":0,
+				"gomcid":0,
+				"fields": {
+					"name":"String",
+					"has_player_uuid":"Boolean",
+					"player_uuid":"UUID"
+				}
+			},
+			"1": {
+				"state":"login",
+				"mcid":1,
+				"gomcid":1,
+				"fields": {
+					"shared_secret_length":"VarInt",
+					"shared_secret":"ByteArray",
+					"verify_token_length":"VarInt",
+					"verify_token":"ByteArray"
+				}
+			},
+			"2": {
+				"state":"login",
+				"mcid":2,
+				"gomcid":2,
+				"fields": {
+					"message_id":"VarInt",
+					"successful":"Boolean",
+					"data":"ByteArray"
+				}
+			}
+		}
+	},
+	"mapping":{}
+}
