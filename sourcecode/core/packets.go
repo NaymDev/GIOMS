@@ -3,6 +3,7 @@ package core
 
 import (
 	"encoding/binary"
+	"bytes"
 	"math"
 	"fmt"
 )
@@ -163,40 +164,59 @@ func (packet *MinecraftPacket) PackDouble(f float64) []byte {
 }
 
 func (packet *MinecraftPacket) PackString(s string) []byte {
-	l := packet.PackVarInt(len(s)*4)
+	l := packet.PackVarInt(len(s))
 	bin := []byte(s)
 	packet.packed = append(packet.packed, bin...)
 	return append(l, bin...)
 }
 
 func (packet *MinecraftPacket) PackVarInt(value int) []byte {
-	packed := make([]byte, 5)
-	for {
-		if (value & int(^SEGMENT_BITS)) == 0 {
-			packed = append(packed, byte(value))
-			packet.packed = append(packet.packed, packed...)
-			return packed
-		}
-		
-		packed = append(packed, byte((value & int(SEGMENT_BITS))) | CONTINUE_BIT)
+	value := uint32(inputValue)
 
+	buffer := new(bytes.Buffer)
+
+	for {
+		temp := (byte)(value & 0b01111111)
 		value >>= 7
+
+		if value != 0 {
+			temp |= 0b10000000
+		}
+
+		buffer.WriteByte(temp)
+
+		if value == 0 {
+			break
+		}
 	}
+
+	packet.packed = append(packet.packed, buffer.Bytes()...)
+	return buffer.Bytes()
 }
 
 func (packet *MinecraftPacket) PackVarLong(value int64) []byte {
-	packed := make([]byte, 10)
+	value := uint64(inputValue)
+
+	buffer := new(bytes.Buffer)
+
 	for {
-		if (value & ^int64(SEGMENT_BITS)) == 0 {
-			packed = append(packed, byte(value))
-			packet.packed = append(packet.packed, packed...)
-			return packed
+		temp := (byte)(value & 0b01111111)
+		value >>= 7
+
+		if value != 0 {
+			temp |= 0b10000000
 		}
 
-		packed = append(packed, byte((value & int64(SEGMENT_BITS))) | CONTINUE_BIT)
+		buffer.WriteByte(temp)
+		n++
 
-		value >>= 7
+		if value == 0 {
+			break
+		}
 	}
+
+	packet.packed = append(packet.packed, buffer.Bytes())
+	return buffer.Bytes()
 }
 
 
